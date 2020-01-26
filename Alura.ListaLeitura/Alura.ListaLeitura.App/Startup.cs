@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Alura.ListaLeitura.App.Negocio;
+﻿using Alura.ListaLeitura.App.Negocio;
 using Alura.ListaLeitura.App.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Alura.ListaLeitura.App
 {
@@ -18,14 +17,46 @@ namespace Alura.ListaLeitura.App
         public void Configure(IApplicationBuilder app)
         {
             var builder = new RouteBuilder(app);
-            builder.MapRoute("livros/paraler", this.LivrosParaLer);
+            builder.MapRoute("livros/paraler", LivrosParaLer);
             builder.MapRoute("livros/lidos", LivrosLidos);
             builder.MapRoute("livros/lendo", LivrosLendo);
             builder.MapRoute("livros/detalhes/{id:int}", getDetalhesLivro);
             builder.MapRoute("Cadastro/NovoLivro/{livro}/{autor}", novoLivro);
+            builder.MapRoute("cadastro/novolivro", exibeFormulario);
+            builder.MapRoute("cadastro/incluirLivro", processaFormulario);
 
             var routes = builder.Build();
             app.UseRouter(routes);
+
+        }
+
+        private Task processaFormulario(HttpContext context)
+        {
+            LivroRepositorioCSV repositorioCsv = new LivroRepositorioCSV();
+            Livro livro = new Livro()
+            {
+                Titulo = context.Request.Query["titulo"].First(),
+                Autor = context.Request.Query["autor"].First()
+            };
+            repositorioCsv.Incluir(livro);
+
+            return context.Response.WriteAsync("Livro incluido com sucesso!");
+        }
+
+
+        private string loadHtml(string form)
+        {
+            string htmlPath = $@"C:\Users\Bruno Vieira\Google Drive\programacao\C#\git\BookAPI\Alura.ListaLeitura\Alura.ListaLeitura.App\HTML\{form}.html";
+
+            using (var arquivo = File.OpenText(htmlPath))
+            {
+                return arquivo.ReadToEnd();
+            }
+        }
+
+        private Task exibeFormulario(HttpContext context)
+        {
+            return context.Response.WriteAsync(loadHtml("formulario"));
 
         }
 
