@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bruno Vieira\\Desktop\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj": {}
+    "C:\\Users\\Bruno Vieira\\Google Drive\\programacao\\C#\\git\\BookAPI\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bruno Vieira\\Desktop\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj": {
+    "C:\\Users\\Bruno Vieira\\Google Drive\\programacao\\C#\\git\\BookAPI\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bruno Vieira\\Desktop\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj",
+        "projectUniqueName": "C:\\Users\\Bruno Vieira\\Google Drive\\programacao\\C#\\git\\BookAPI\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj",
         "projectName": "Alura.ListaLeitura.App",
-        "projectPath": "C:\\Users\\Bruno Vieira\\Desktop\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj",
+        "projectPath": "C:\\Users\\Bruno Vieira\\Google Drive\\programacao\\C#\\git\\BookAPI\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\Alura.ListaLeitura.App.csproj",
         "packagesPath": "C:\\Users\\Bruno Vieira\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bruno Vieira\\Desktop\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\obj\\",
+        "outputPath": "C:\\Users\\Bruno Vieira\\Google Drive\\programacao\\C#\\git\\BookAPI\\Alura.ListaLeitura\\Alura.ListaLeitura.App\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

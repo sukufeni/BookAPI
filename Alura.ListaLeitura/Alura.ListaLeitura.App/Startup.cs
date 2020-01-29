@@ -35,8 +35,8 @@ namespace Alura.ListaLeitura.App
             LivroRepositorioCSV repositorioCsv = new LivroRepositorioCSV();
             Livro livro = new Livro()
             {
-                Titulo = context.Request.Query["titulo"].First(),
-                Autor = context.Request.Query["autor"].First()
+                Titulo = context.Request.Form["titulo"].First(),
+                Autor = context.Request.Form["autor"].First()
             };
             repositorioCsv.Incluir(livro);
 
@@ -91,7 +91,14 @@ namespace Alura.ListaLeitura.App
         public Task LivrosParaLer(HttpContext context)
         {
             var repo = new LivroRepositorioCSV();
-            return context.Response.WriteAsync(repo.ParaLer.ToString());
+            string htmlFile = loadHtml("ParaLer");
+            foreach (Livro paraLerLivro in repo.ParaLer.Livros)
+            {
+                htmlFile = htmlFile.Replace("#novolivro", $"<li>{paraLerLivro.Titulo} - {paraLerLivro.Autor}</li> #novolivro");
+            }
+
+            htmlFile = htmlFile.Replace("#novolivro", "");
+            return context.Response.WriteAsync(htmlFile);
         }
         public Task LivrosLendo(HttpContext context)
         {
