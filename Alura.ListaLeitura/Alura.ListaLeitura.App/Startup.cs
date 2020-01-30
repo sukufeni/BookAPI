@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,14 +44,21 @@ namespace Alura.ListaLeitura.App
             return context.Response.WriteAsync("Livro incluido com sucesso!");
         }
 
-
         private string loadHtml(string form)
         {
             string htmlPath = $@"C:\Users\Bruno Vieira\Google Drive\programacao\C#\git\BookAPI\Alura.ListaLeitura\Alura.ListaLeitura.App\HTML\{form}.html";
 
-            using (var arquivo = File.OpenText(htmlPath))
+            try
             {
-                return arquivo.ReadToEnd();
+                using (var arquivo = File.OpenText(htmlPath))
+                {
+                    return arquivo.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
             }
         }
 
@@ -90,25 +98,19 @@ namespace Alura.ListaLeitura.App
 
         public Task LivrosParaLer(HttpContext context)
         {
-            var repo = new LivroRepositorioCSV();
-            string htmlFile = loadHtml("ParaLer");
-            foreach (Livro paraLerLivro in repo.ParaLer.Livros)
-            {
-                htmlFile = htmlFile.Replace("#novolivro", $"<li>{paraLerLivro.Titulo} - {paraLerLivro.Autor}</li> #novolivro");
-            }
-
-            htmlFile = htmlFile.Replace("#novolivro", "");
-            return context.Response.WriteAsync(htmlFile);
+            string html = loadhtmlLivros(new LivroRepositorioCSV().ParaLer.Livros);
+            return context.Response.WriteAsync(html);
         }
+
         public Task LivrosLendo(HttpContext context)
         {
-            var repo = new LivroRepositorioCSV();
-            return context.Response.WriteAsync(repo.Lendo.ToString());
+            string html = loadhtmlLivros(new LivroRepositorioCSV().Lendo.Livros);
+            return context.Response.WriteAsync(html);
         }
         public Task LivrosLidos(HttpContext context)
         {
-            var repo = new LivroRepositorioCSV();
-            return context.Response.WriteAsync(repo.Lidos.ToString());
+            string html = loadhtmlLivros(new LivroRepositorioCSV().Lidos.Livros);
+            return context.Response.WriteAsync(html);
         }
 
         public Task RoutingTask(HttpContext context)
@@ -122,6 +124,24 @@ namespace Alura.ListaLeitura.App
         public void configureServices(IServiceCollection services)
         {
             services.AddRouting();
+        }
+
+        private string loadhtmlLivros(IEnumerable<Livro> livros)
+        {
+            try
+            {
+                string htmlFile = loadHtml("ListaLivro");
+                foreach (Livro livro in livros)
+                {
+                    htmlFile = htmlFile.Replace("#novolivro", $"<li>{livro.Titulo} - {livro.Autor}</li> #novolivro");
+                }
+                return htmlFile.Replace("#novolivro", "");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
