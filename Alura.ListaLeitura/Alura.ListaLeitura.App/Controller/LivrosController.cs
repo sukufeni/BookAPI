@@ -6,35 +6,38 @@ using Alura.ListaLeitura.App.Repositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Alura.ListaLeitura.App.Logica
+namespace Alura.ListaLeitura.App.Controller
 {
-    public static class ExibicaoLivros
+    public class LivrosController
     {
-
-        public static Task getDetalhesLivro(HttpContext context)
+        public string detalhes(int id)
         {
             LivroRepositorioCSV repositorio = new LivroRepositorioCSV();
-            var livro = repositorio.Todos.First(r => r.Id == int.Parse(context.GetRouteValue("id").ToString()));
-            return context.Response.WriteAsync(livro.Detalhes());
+            var livro = repositorio.Todos.First(r => r.Id == id);
+            return livro.Detalhes();
 
         }
 
-        public static Task LivrosParaLer(HttpContext context)
+        public IActionResult ParaLer()
         {
-            string html = loadhtmlLivros(new LivroRepositorioCSV().ParaLer.Livros);
-            return context.Response.WriteAsync(html);
+            return new ViewResult() { ViewName = "lista" };   
         }
 
-        public static Task LivrosLendo(HttpContext context)
+        public static Task Lendo(HttpContext context)
         {
             string html = loadhtmlLivros(new LivroRepositorioCSV().Lendo.Livros);
             return context.Response.WriteAsync(html);
         }
-        public static Task LivrosLidos(HttpContext context)
+        public static Task Lidos(HttpContext context)
         {
             string html = loadhtmlLivros(new LivroRepositorioCSV().Lidos.Livros);
             return context.Response.WriteAsync(html);
+        }
+        public string teste()
+        {
+            return "Sucesso!";
         }
 
         #region helperMethods

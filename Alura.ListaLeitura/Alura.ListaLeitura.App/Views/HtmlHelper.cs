@@ -9,7 +9,7 @@ namespace Alura.ListaLeitura.App
     {
         public static string loadHtml(string form)
         {
-            string htmlPath = $@"C:\Users\Bruno Vieira\Google Drive\programacao\C#\git\BookAPI\Alura.ListaLeitura\Alura.ListaLeitura.App\HTML\{form}.html";
+            string htmlPath = $@"C:\Users\Bruno Vieira\Google Drive\programacao\C#\git\BookAPI\Alura.ListaLeitura\Alura.ListaLeitura.App\View\{form}.html";
 
             try
             {

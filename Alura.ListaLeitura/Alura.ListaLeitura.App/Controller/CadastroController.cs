@@ -4,30 +4,24 @@ using System.Threading.Tasks;
 using Alura.ListaLeitura.App.Negocio;
 using Alura.ListaLeitura.App.Repositorio;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Alura.ListaLeitura.App.Logica
+namespace Alura.ListaLeitura.App.Controller
 {
-    public static class CadastroLogica
+    public class CadastroController
     {
-        public static Task novoLivro(HttpContext context)
+        public string novoLivro(Livro livro)
         {
             LivroRepositorioCSV repositorio = new LivroRepositorioCSV();
             try
             {
-                Livro livro = new Livro()
-                {
-                    Titulo = context.GetRouteValue("livro").ToString(),
-                    Autor = context.GetRouteValue("autor").ToString()
-                };
-
                 repositorio.Incluir(livro);
             }
             catch (Exception e)
             {
-                return context.Response.WriteAsync($"Erro ao incluir Livro! {e.Message}");
+                return $"Erro ao incluir Livro! {e.Message}";
             }
-            return context.Response.WriteAsync("livro adicionado com sucesso");
+            return "livro adicionado com sucesso";
         }
 
         public static Task processaFormulario(HttpContext context)
@@ -43,10 +37,9 @@ namespace Alura.ListaLeitura.App.Logica
             return context.Response.WriteAsync("Livro incluido com sucesso!");
         }
 
-        public static Task exibeFormulario(HttpContext context)
+        public IActionResult exibeFormulario()
         {
-            return context.Response.WriteAsync(HtmlHelper.loadHtml("formulario"));
-
+            return new ViewResult() { ViewName = "formulario" };
         }
     }
 }
